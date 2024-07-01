@@ -1,0 +1,54 @@
+
+7. Diseñar un banco de memoria RAM de 1 GByte. Se dispone de un circuito integrado de
+512 M palabras de 4 bits y dos de 256 M palabras de 4 bits.
+a. Indicar cuántos y cuáles circuitos integrados se van a usar.
+b. Armar un mapa de memoria en el que se vea la primera dirección y la última para
+cada circuito integrado.
+c. Decodificar los selectores de integrado (Chip Select).
+d. Dibujar el circuito.
+
+
+a.
+Direccionamiento
+1 x 512M x 4 bits (D0 a D3)           1 x 512M x 4 bits (D4 a D7) IC3b
+2 x 256M x 4 bits (D0 a D3)           2 x 256M x 4 bits (D4 a D7) IC1b E IC2b
+
+1 GByte = 2^n 
+
+1K = 2^10 = 1024
+1M =1K x 1K = 2^10 x 2^10 = 2^20 
+1G= 1M x 1K = 2^20 x 2^10 = 2^30
+
+256M = 2^8 2^20 = 2^28   A0 hasta A27
+512M = 2^9 2^20 = 2^29   A0 hasta A28
+
+IC1 
+IC2
+IC3
+
+30 líneas de direcciones A0 hasta A29
+
+b. MAPA DE MEMORIA
+A29 A28 A27 A26 .........A0
+0    0   0   0  .........0  PRIMER DIRECCIÓN DE IC1 256M
+..........................
+0    0   1   1  .........1  ULTIMA DIRECCIÓN DE IC1 256M
+                      + 1
+0    1   0   0 ..........0  PRIMER DIRECCIÓN DE IC2 256M
+..........................  
+0    1   1   1 ..........1  ULTIMA DIRECCIÓN DE IC2 256M
+                      + 1
+1    0   0   0 ..........0  PRIMER DIRECCIÓN DE IC3 512M
+.......................... 
+1    1   1   1 ......... 1  ULTIMA DIRECCIÓN DE IC3 512M  
+    
+c. DECODIFICACIÓN DE CS
+
+A29  A28  
+0     0     CS1 
+0     1     CS2
+1     X     CS3
+
+     
+
+

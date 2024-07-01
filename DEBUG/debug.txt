@@ -1,0 +1,102 @@
+DESCARGAS
+
+debug con windows
+https://youtu.be/fsmHXU4MyM0
+
+
+DOSBox
+https://www.dosbox.com/download.php?main=1
+
+
+Debug
+https://www.mediafire.com/download/bopdmu16tav8thg/debug.zip
+
+Sistemas de Computación I en la UAI - Instalar y configurar DOSBOX
+https://www.studocu.com/es-ar/document/universidad-abierta-interamericana/sistemas-de-computacion-i/como-instalar-debug/1709657
+
+
+INICIO RÁPIDO
+Instalar DosBox aceptando todo.
+Descargar y descomprimir debug.exe en el disco D:
+Ejecutar DosBox
+Aparece el prompt en z:\>
+Escribir INTRO para instrucciones
+Escribir HELP para comandos
+Ctrl+F11 y Ctrl+F12 ajustan velocidad de CPU emulada
+Ctrl+F1 activa el keymapper
+Mas info en Readme
+
+Path de DosBox:
+"C:\Program Files (x86)\DOSBox-0.74-3"
+
+Montar el disco D
+  mount d d:/
+  
+Cambiar a disco D
+  z:\>d:
+
+Ejecutar Debug:
+  z:\>debug.exe
+Aparece un guión - como prompt.  
+
+Listar el contenido de todos los registros
+-R
+
+Para ver un prorama ensamblado hay que desensamblarlo:
+-u 
+o -u 10D (la dirección)
+
+Ver el archivO USO DE DEBUG.pdf
+
+Al terminar de escribir el programa:
+
+1. ponerle nombre y guardarlo
+-n prog1.com
+
+2. definir la cantidad de bytes que ocupa el programa
+-rcx
+CX 0000
+:16
+3. guardarlo. Queda en el mismo directorio que debug.com
+-w
+writting 00016 bytes
+
+Para ejecutarlo:
+desde el d:  debug prog1.com
+desde el debug: -g  o  -g A10 (dirección)
+
+Copiar un programa para modificarlo:
+-n otro_nombre.com
+cx 30 cantidad de bytes
+-w 
+
+
+Borrar pantalla. Dirección pantalla:  0B800h
+
+14D3:7A10   B9 D0 07    MOV  CX,7D0H           ; CX = 7D0h (2000 decimal = 7D0 hexadecimal) Cantidad de bytes de la pantalla
+14D3:7A13   B8 00 B8    MOV  AX,0B800h         ; segmento de la memoria de pantalla
+14D3:7A16   8E D8       MOV  DS,AX             ; apuntar segmento de datos a la misma
+14D3:7A18   BB 00 00    MOV  BX,0              ; apuntar al primer carácter ASCII de la pantalla
+14D3:7A1B   C6 07 20    MOV  BYTE PTR [BX],32  ; se pone BYTE PTR para indicar que 32 es de 8 bits
+14D3:7A1E   43          INC  BX                ; BX=BX+1 -< apuntar al byte de color
+14D3:7A1F   43          INC  BX                ; BX=BX+1 -< apuntar al siguiente carácter ASCII
+14D3:7A20   49          DEC  CX                ; CX=CX-1 -< queda un carácter menos
+14D3:7A21   75 F8       JNZ  -8                ; si CX no es 0, saltar 8 bytes atrás (a 14D3:7A1B)
+
+
+Debug no permite carga de datos en modo inmedianto. VERIFICAR
+A los programas de hasta 64Kbytes los ensambla como .com
+A los programas mayores a 64Kbytes los ensambla como .exe
+
+Atributos de color: 1 bit destello, RGB fondo, 1 bit brillo, RGB caracter
+
+Boca
+14D3:7A10   B9 D0 07    MOV  CX,7D0H           ; CX = 7D0h (2000 decimal = 7D0 hexadecimal) Cantidad de bytes de la pantalla
+14D3:7A13   B8 00 B8    MOV  AX,0B800h         ; segmento de la memoria de pantalla
+14D3:7A16   8E D8       MOV  DS,AX             ; apuntar segmento de datos a la misma
+14D3:7A18   BB 00 00    MOV  BX,0              ; apuntar al primer carácter ASCII de la pantalla
+14D3:7A1B   C6 07 20    MOV  [BX],11F0h  	   ; sin caracter fondo azul
+14D3:7A1E   43          INC  BX                ; BX=BX+1 -< apuntar al byte de color
+14D3:7A1F   43          INC  BX                ; BX=BX+1 -< apuntar al siguiente carácter ASCII
+14D3:7A20   49          DEC  CX                ; CX=CX-1 -< queda un carácter menos
+14D3:7A21   75 F8       JNZ  -8                ; si CX no es 0, saltar 8 bytes atrás (a 14D3:7A1B)

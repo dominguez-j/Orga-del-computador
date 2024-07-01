@@ -1,0 +1,135 @@
+8. Diseñar un banco de memoria RAM de 768 MBytes y 256 Bytes de ROM. 
+Para la memoria RAM se dispone de dos circuitos integrados de 256 Mbytes y dos
+ de 128 MBytes. 
+Para la memoria ROM se dispone de un circuito integrado de 128 MBytes, uno
+de 64 MBytes y dos de 32 Mbytes. Se pide:
+a. Indicar cuántos y cuáles circuitos integrados se van a usar.
+b. Armar un mapa de memoria en el que se vea la primera dirección y la última para
+cada circuito integrado.
+c. Decodificar los selectores de integrado (Chip Select).
+
+d. Dibujar el circuito.
+
+a.
+RAM 768 MBytes
+IC1  256 Mbytes = 2^8 x 2^20 = 2^28 --> A0 hasta A27
+IC2  256 Mbytes = 2^8 x 2^20 = 2^28 --> A0 hasta A27
+IC3  128 Mbytes = 2^7 x 2^20 = 2^27 --> A0 hasta A26
+IC4  128 Mbytes = 2^7 x 2^20 = 2^27 --> A0 hasta A26
+
+ROM 256 MBytes
+IC5 128 MBytes --> A0 hasta A26
+IC6 64 MBytes ---> A0 hasta A25
+IC7 32 MBytes ---> A0 hasta A24
+IC8 32 MBytes ---> A0 hasta A24
+
+b. 768 + 256  =  1024 MBytes = 1K x 1M = 2^10 x 2^20 =  2^30 = 1GByte.  A0 hasta A29
+
+A29 A28 A27 A26 A25 A24 ............................A0
+0   0    0    0  0   0  ............................0   IC1 1°
+....................................................
+0   0    1    1  1   1   1  1 .................... 1    IC1 última
+
+0   1    0    0  0   0   0  0 .................... 0    IC2 1°    
+.....................................................
+0   1    1    1   1  1   1  1 .....................1    IC2 última
+
+1   0    0    0   0  0  ...........................0    IC3 1°
+.....................................................
+1   0    0    1   1  1   1.........................1    IC3 última
+
+
+1   0    1    0   0  0   0 ........................0    IC4 1°
+....................................................
+1   0    1    1   1  1   1  .......................1    IC4 última
+
+
+1   1    0    0   0  0   0  .......................0    IC5 1°
+....................................................
+1   1    0    1   1  1   1     ....................1    IC5 última
+
+
+1   1    1    0   0  0   0  .......................0    IC6 1°
+....................................................
+1   1    1    0   1  1   1 ........................1    IC6 última
+
+
+1   1    1    1   0  0   0 ........................0    IC7 1°
+...................................................
+1   1    1    1   0  1   1 ........................ 1   IC7 última
+
+1   1    1    1   1  0   0 .........................0   IC8 1°
+......................................................
+1   1    1    1   1   1   1 .........................1   IC8 última
+
+c.
+	A29 A28 A27 A26 A25 
+IC1  0   0   x   x   x   CS1
+IC2  0   1   x   x   x   CS2
+IC3  1   0   0   x   x   CS3 
+IC4  1   0   1   x   x   CS4
+IC5  1   1   0   x   x   CS5
+IC6  1   1   1   0   x   CS6
+IC7  1   1   1   1   0   CS7
+IC8  1   1   1   1   1   CS8
+     |   |   |   |   |
+     |   |   |   |   |  					SALIDAS
+    ---------------------	-------------->  CS1
+    | ENTRADAS		    |   -------------->  CS2
+    | 					|   -------------->  CS3 
+    |					|   -------------->  CS4
+    |	 Decodificador  |   -------------->  CS5
+    |					|   -------------->  CS6
+    |					|   -------------->  CS7
+    |					|   -------------->  CS8
+	-------------------   			 
+
+Ejemplo para CS6
+
+IC6  1   1   1   0   x   CS6
+  
+  A29 ------ ---------------------
+  A28 ------ | 				    |
+  A27 ------ | 	AND				|----> CS6
+  A26 -----|>|					|
+              -------------------  
+|> <---- ESO ES UN INVERSOR
+
+
+
+				   
+
+  
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+
+       
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
